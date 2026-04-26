@@ -1,5 +1,5 @@
 // Netlify function — POST /api/audit-start
-// Accepts form data, creates a job, triggers the background worker, returns job ID instantly.
+// Rate limits, creates job record, triggers background worker, returns jobId.
 
 import { getStore } from "@netlify/blobs";
 
@@ -45,19 +45,30 @@ export default async (req) => {
     const formData = await req.json();
     const jobId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
-    // Store initial job state
+    // Create the initial job record so audit-status can find it
     const store = getStore('audits');
-    await store.setJSON(jobId, { status: 'pending', createdAt: Date.now() });
+    await store.setJSON(jobId, {
+      status: 'pending',
+      formData,
+      createdAt: Date.now()
+    });
 
-    // Trigger the background function (fire and forget)
+    // Trigger the background function asynchronously via Netlify's internal URL.
+    // Background functions return 202 immediately and continue running.
+    // We must AWAIT this fetch to ensure the trigger is actually sent before audit-start returns,
+    // but we ignore any errors since the function will keep running regardless.
     const url = new URL(req.url);
-    const bgUrl = `${url.protocol}//${url.host}/.netlify/functions/audit-worker-background`;
+    const bgUrl = `${url.protocol}//${url.host}/.netlify/functions/audit-background`;
 
-    fetch(bgUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobId, formData })
-    }).catch(() => {}); // fire and forget, don't await
+    try {
+      await fetch(bgUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId })
+      });
+    } catch (e) {
+      // Background function already kicked off — error here doesn't matter
+    }
 
     return new Response(JSON.stringify({ jobId, remaining: limit.remaining }), {
       status: 200, headers: { 'Content-Type': 'application/json' }

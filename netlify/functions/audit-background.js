@@ -1,5 +1,5 @@
-// Netlify Background Function — runs up to 15 minutes
-// IMPORTANT: filename MUST end in -background.js for Netlify to treat it as a background function
+// Netlify Background Function — has up to 15 minutes runtime.
+// Filename ends in -background so Netlify runs it asynchronously.
 
 import { getStore } from "@netlify/blobs";
 
@@ -51,28 +51,41 @@ Be ruthlessly specific. Name names. Calibrate to actual stage and constraints. R
 }
 
 export default async (req) => {
+  console.log('[bg] audit-background invoked');
   const store = getStore('audits');
   let jobId;
 
   try {
     const body = await req.json();
     jobId = body.jobId;
-    const formData = body.formData;
+    console.log('[bg] jobId received:', jobId);
 
     if (!jobId) {
+      console.log('[bg] no jobId, exiting');
       return new Response('Missing jobId', { status: 400 });
     }
 
-    // Mark as processing
-    await store.setJSON(jobId, { status: 'processing', createdAt: Date.now() });
+    const job = await store.get(jobId, { type: 'json' });
+    if (!job || !job.formData) {
+      console.log('[bg] no job record found for', jobId);
+      await store.setJSON(jobId, { status: 'error', error: 'Job not found' });
+      return new Response('Job not found', { status: 404 });
+    }
+
+    const formData = job.formData;
+    console.log('[bg] starting audit for product:', formData.product_name);
+
+    await store.setJSON(jobId, { status: 'processing', formData, createdAt: Date.now() });
 
     const apiKey = Netlify.env.get('ANTHROPIC_API_KEY');
     if (!apiKey) {
+      console.log('[bg] no API key set');
       await store.setJSON(jobId, { status: 'error', error: 'Server misconfiguration' });
       return new Response('No API key', { status: 500 });
     }
 
     const prompt = buildPrompt(formData);
+    console.log('[bg] calling Anthropic...');
 
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -88,27 +101,33 @@ export default async (req) => {
       })
     });
 
+    console.log('[bg] Anthropic responded with status:', apiRes.status);
+
     if (!apiRes.ok) {
       const errText = await apiRes.text();
-      await store.setJSON(jobId, { status: 'error', error: 'Anthropic API error', detail: errText });
+      console.log('[bg] Anthropic error:', errText.slice(0, 200));
+      await store.setJSON(jobId, { status: 'error', error: 'Anthropic API error', detail: errText.slice(0, 500) });
       return new Response('API error', { status: 502 });
     }
 
     const data = await apiRes.json();
     let text = data.content[0].text.trim();
     text = text.replace(/^```json\s*/, '').replace(/^```\s*/, '').replace(/\s*```$/, '').trim();
+
+    console.log('[bg] parsing JSON...');
     const audit = JSON.parse(text);
 
-    // Save the result
     await store.setJSON(jobId, {
       status: 'complete',
       audit,
       completedAt: Date.now()
     });
 
+    console.log('[bg] DONE — saved result for', jobId);
     return new Response('OK', { status: 200 });
 
   } catch (err) {
+    console.log('[bg] caught error:', err.message);
     if (jobId) {
       await store.setJSON(jobId, {
         status: 'error',
