@@ -890,27 +890,57 @@ async function runAudit() {
   animateLoading();
 
   try {
-    const res = await fetch('/api/audit', {
+    // Step 1: Start the audit job
+    const startRes = await fetch('/api/audit-start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(S.fd)
     });
 
-    const data = await res.json();
+    const startData = await startRes.json();
 
-    if (!res.ok) {
+    if (!startRes.ok) {
       goTo('form');
-      if (data.error === 'rate_limit') {
-        showError(data.message);
+      if (startData.error === 'rate_limit') {
+        showError(startData.message);
       } else {
-        showError(data.message || 'Audit failed. Please try again.');
+        showError(startData.message || 'Could not start audit. Please try again.');
       }
       return;
     }
 
-    S.audit = data.audit;
-    renderResults();
-    goTo('results');
+    const jobId = startData.jobId;
+
+    // Step 2: Poll for completion every 2 seconds (max 90 seconds)
+    const maxAttempts = 45;
+    let attempts = 0;
+
+    while (attempts < maxAttempts) {
+      await new Promise(r => setTimeout(r, 2000));
+      attempts++;
+
+      const statusRes = await fetch(`/api/audit-status?id=${jobId}`);
+      const status = await statusRes.json();
+
+      if (status.status === 'complete') {
+        S.audit = status.audit;
+        renderResults();
+        goTo('results');
+        return;
+      }
+
+      if (status.status === 'error') {
+        goTo('form');
+        showError('Audit generation failed. Please try again.');
+        return;
+      }
+      // else: still pending or processing — keep polling
+    }
+
+    // Timeout after 90 seconds
+    goTo('form');
+    showError('Audit is taking longer than expected. Please try again.');
+
   } catch (err) {
     goTo('form');
     showError('Connection error. Please check your internet and try again.');

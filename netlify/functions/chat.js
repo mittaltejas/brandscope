@@ -1,19 +1,17 @@
 // Netlify serverless function — POST /api/chat
-// Handles scenario mode follow-ups with full audit context.
+// Scenario mode chat. Stays sync since responses are short.
 
 export default async (req) => {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' }
+      status: 405, headers: { 'Content-Type': 'application/json' }
     });
   }
 
   const apiKey = Netlify.env.get('ANTHROPIC_API_KEY');
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'Server misconfiguration' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      status: 500, headers: { 'Content-Type': 'application/json' }
     });
   }
 
@@ -22,8 +20,7 @@ export default async (req) => {
 
     if (!messages || !Array.isArray(messages)) {
       return new Response(JSON.stringify({ error: 'Invalid request' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        status: 400, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -43,8 +40,8 @@ Be direct, specific, and honest. Use the audit data as your foundation. Every re
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1500,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1200,
         system: systemCtx,
         messages: messages
       })
@@ -52,8 +49,7 @@ Be direct, specific, and honest. Use the audit data as your foundation. Every re
 
     if (!apiRes.ok) {
       return new Response(JSON.stringify({ error: 'Anthropic API error' }), {
-        status: 502,
-        headers: { 'Content-Type': 'application/json' }
+        status: 502, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -61,18 +57,14 @@ Be direct, specific, and honest. Use the audit data as your foundation. Every re
     const reply = data.content[0].text;
 
     return new Response(JSON.stringify({ reply }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      status: 200, headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (err) {
     return new Response(JSON.stringify({
       error: 'Chat failed',
       message: err.message || 'Unknown error'
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 };
 
