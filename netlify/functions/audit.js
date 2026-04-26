@@ -173,7 +173,7 @@ export default async (req) => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 8000,
+        max_tokens: 5500,
         messages: [{ role: 'user', content: prompt }]
       })
     });
