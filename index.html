@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brandscope — Brand Intelligence for the Next Generation</title>
+<meta name="description" content="Run a complete competitive brand audit in under 60 seconds. Built for ambitious students, junior brand pros, and founders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,800&family=Figtree:wght@300;400;500;600;700;800;900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7EDD5;
+  --cream-deep: #F1E3BD;
+  --cream-dark: #E8D4A0;
+  --sun: #F5B730;
+  --sun-deep: #E99A0B;
+  --coral: #E85A3C;
+  --coral-deep: #C93E22;
+  --hot-pink: #E4569D;
+  --hot-pink-deep: #C73F84;
+  --sky: #5EB3E4;
+  --sky-deep: #2B8BC7;
+  --sage: #7FAB6F;
+  --sage-deep: #5A8A4B;
+  --grape: #7B5FBF;
+  --grape-deep: #5A3FA0;
+  --ink: #1F1A14;
+  --ink-soft: #3A332A;
+  --ink-ghost: #736759;
+  --frame-border: 2.5px solid var(--ink);
+  --frame-radius: 28px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Figtree',system-ui,sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+
+/* Top nav */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(247,237,213,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:2px solid var(--ink);padding:0 36px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.topnav-brand{font-family:'Rubik Mono One',sans-serif;font-size:15px;letter-spacing:-0.02em;color:var(--ink);text-transform:uppercase;text-decoration:none;cursor:pointer;background:none;border:none;}
+.topnav-brand span{color:var(--coral);}
+.topnav-links{display:flex;align-items:center;gap:4px;}
+.tn-link{font-family:'Figtree',sans-serif;font-weight:600;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;padding:7px 14px;border-radius:100px;transition:all 0.2s;border:2px solid transparent;cursor:pointer;background:transparent;}
+.tn-link:hover{color:var(--ink);background:rgba(31,26,20,0.05);}
+.tn-link.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.tn-cta{background:var(--coral);color:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:7px 16px;font-family:'Figtree',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:all 0.15s;}
+.tn-cta:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);}
+
+/* Ambient blobs */
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;opacity:0.4;filter:blur(80px);}
+.b1{width:520px;height:520px;background:var(--sun);top:-200px;left:-180px;animation:drift 28s ease-in-out infinite;}
+.b2{width:420px;height:420px;background:var(--hot-pink);top:30%;right:-160px;animation:drift 32s ease-in-out infinite reverse;}
+.b3{width:380px;height:380px;background:var(--sky);bottom:10%;left:30%;animation:drift 36s ease-in-out infinite;}
+.b4{width:340px;height:340px;background:var(--sage);top:120%;right:10%;animation:drift 30s ease-in-out infinite;}
+.b5{width:460px;height:460px;background:var(--grape);top:200%;left:-100px;animation:drift 34s ease-in-out infinite reverse;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(50px,-40px) scale(1.1);}66%{transform:translate(-30px,30px) scale(0.95);}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;border:2.5px solid var(--ink);border-radius:100px;padding:14px 28px;cursor:pointer;color:var(--ink);transition:transform 0.15s ease,box-shadow 0.15s ease;text-decoration:none;box-shadow:4px 4px 0 var(--ink);background:var(--cream);}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:4px 4px 0 var(--ink);}
+.btn-sun{background:var(--sun);}
+.btn-coral{background:var(--coral);color:var(--cream);}
+.btn-pink{background:var(--hot-pink);color:var(--cream);}
+.btn-sky{background:var(--sky);}
+.btn-sage{background:var(--sage);color:var(--cream);}
+.btn-ink{background:var(--ink);color:var(--cream);}
+.btn-ghost{background:transparent;}
+.btn-lg{padding:18px 36px;font-size:14px;}
+.btn-sm{padding:10px 20px;font-size:11px;box-shadow:3px 3px 0 var(--ink);}
+.btn-sm:hover{box-shadow:5px 5px 0 var(--ink);}
+
+/* Screens */
+.screen{display:none;position:relative;z-index:5;}
+.screen.active{display:block;}
+
+/* Landing page */
+.section{padding:100px 44px;position:relative;max-width:1280px;margin:0 auto;}
+.hero-section{padding-top:140px;padding-bottom:80px;}
+.hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);border-radius:100px;padding:7px 16px;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:24px;}
+.hero-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--sun);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(1.3);}}
+.hero-title{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:82px;line-height:0.92;letter-spacing:-0.03em;margin-bottom:26px;}
+.hero-title strong{font-style:normal;font-weight:900;}
+.hero-title .u{background:var(--sun);padding:0 8px;border-radius:8px;display:inline-block;transform:rotate(-1deg);font-style:normal;font-weight:900;}
+.hero-body{font-size:17px;line-height:1.7;color:var(--ink-soft);max-width:500px;margin-bottom:32px;}
+.hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+.hero-trust{margin-top:32px;display:flex;align-items:center;gap:16px;}
+.trust-avs{display:flex;}
+.trust-av{width:36px;height:36px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sun);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--ink);}
+.trust-av:nth-child(1){background:var(--hot-pink);margin-left:0;}
+.trust-av:nth-child(2){background:var(--sky);}
+.trust-av:nth-child(3){background:var(--sage);color:var(--cream);}
+.trust-av:nth-child(4){background:var(--coral);color:var(--cream);}
+.trust-text{font-size:12px;color:var(--ink-soft);font-weight:500;line-height:1.4;}
+.trust-text b{color:var(--ink);font-weight:700;}
+
+.hero-visual{position:relative;height:520px;}
+.hv-card{position:absolute;border:var(--frame-border);border-radius:24px;padding:20px;box-shadow:6px 6px 0 var(--ink);}
+.hv-1{top:0;left:0;width:260px;background:var(--hot-pink);color:var(--cream);transform:rotate(-4deg);animation:bob1 6s ease-in-out infinite;}
+.hv-2{top:40px;right:20px;width:240px;background:var(--sun);transform:rotate(5deg);animation:bob2 7s ease-in-out infinite reverse;}
+.hv-3{top:220px;left:30px;width:280px;background:var(--sky);transform:rotate(2deg);animation:bob3 8s ease-in-out infinite;}
+.hv-4{top:280px;right:0;width:260px;background:var(--sage);color:var(--cream);transform:rotate(-3deg);animation:bob4 5.5s ease-in-out infinite reverse;}
+@keyframes bob1{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-12px) rotate(-4deg);}}
+@keyframes bob2{0%,100%{transform:translateY(0) rotate(5deg);}50%{transform:translateY(-12px) rotate(5deg);}}
+@keyframes bob3{0%,100%{transform:translateY(0) rotate(2deg);}50%{transform:translateY(-12px) rotate(2deg);}}
+@keyframes bob4{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-12px) rotate(-3deg);}}
+.hvc-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;opacity:0.9;}
+.hvc-head{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:22px;line-height:1.1;letter-spacing:-0.01em;}
+.hvc-head strong{font-style:normal;font-weight:800;}
+.hvc-num{font-family:'Fraunces',serif;font-weight:800;font-size:52px;line-height:1;letter-spacing:-0.03em;margin-top:8px;}
+.hvc-bar{height:8px;background:rgba(0,0,0,0.15);border:1.5px solid var(--ink);border-radius:100px;margin-top:10px;overflow:hidden;}
+.hvc-bar-fill{height:100%;background:var(--ink);border-right:1.5px solid var(--ink);}
+
+.float-deco{position:absolute;pointer-events:none;z-index:1;opacity:0.9;}
+.fd-sun-sm{top:110px;right:6%;animation:spin 18s linear infinite;}
+.fd-squiggle{top:40%;left:3%;animation:wobble 5s ease-in-out infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes wobble{0%,100%{transform:translateX(0) rotate(0);}50%{transform:translateX(10px) rotate(8deg);}}
+
+.how-section{background:var(--ink);color:var(--cream);padding:100px 44px;border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);position:relative;z-index:5;overflow:hidden;}
+.how-wrap{max-width:1280px;margin:0 auto;position:relative;z-index:2;}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--cream);color:var(--ink);border-radius:100px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:20px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--sun);}
+.sec-head{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:56px;line-height:0.98;letter-spacing:-0.02em;margin-bottom:48px;max-width:800px;}
+.sec-head strong{font-style:normal;font-weight:900;}
+.sec-head .u{background:var(--coral);padding:0 10px;border-radius:10px;display:inline-block;transform:rotate(-1deg);font-style:normal;font-weight:900;color:var(--cream);}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.how-card{background:var(--cream);color:var(--ink);border:var(--frame-border);border-radius:var(--frame-radius);padding:28px;box-shadow:6px 6px 0 var(--sun);transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;}
+.how-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--sun);}
+.how-card:nth-child(2){box-shadow:6px 6px 0 var(--hot-pink);}
+.how-card:nth-child(2):hover{box-shadow:9px 9px 0 var(--hot-pink);}
+.how-card:nth-child(3){box-shadow:6px 6px 0 var(--sky);}
+.how-card:nth-child(3):hover{box-shadow:9px 9px 0 var(--sky);}
+.how-card:nth-child(4){box-shadow:6px 6px 0 var(--sage);}
+.how-card:nth-child(4):hover{box-shadow:9px 9px 0 var(--sage);}
+.how-num{font-family:'Rubik Mono One',sans-serif;font-size:44px;color:var(--ink);opacity:0.15;letter-spacing:-0.04em;line-height:1;margin-bottom:8px;}
+.how-title{font-family:'Fraunces',serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin-bottom:10px;}
+.how-body{font-size:13.5px;line-height:1.6;color:var(--ink-soft);}
+
+.feats-section{padding:100px 44px;}
+.feats-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:auto auto;gap:22px;margin-top:44px;}
+.feat{border:var(--frame-border);border-radius:var(--frame-radius);padding:32px;box-shadow:6px 6px 0 var(--ink);transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;}
+.feat:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+.feat-1{background:var(--coral);color:var(--cream);grid-column:1;grid-row:1/span 2;min-height:460px;}
+.feat-2{background:var(--sun);grid-column:2;grid-row:1;}
+.feat-3{background:var(--sky);grid-column:3;grid-row:1;}
+.feat-4{background:var(--hot-pink);color:var(--cream);grid-column:2;grid-row:2;}
+.feat-5{background:var(--sage);color:var(--cream);grid-column:3;grid-row:2;}
+.feat-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px;opacity:0.9;}
+.feat-head{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:26px;line-height:1.1;letter-spacing:-0.01em;margin-bottom:14px;}
+.feat-1 .feat-head{font-size:36px;}
+.feat-head strong{font-style:normal;font-weight:800;}
+.feat-body{font-size:14px;line-height:1.65;opacity:0.94;}
+.feat-1 .feat-body{font-size:15.5px;}
+
+.testi-section{padding:40px 44px 100px;}
+.testi-wrap{max-width:920px;margin:0 auto;background:var(--grape);color:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:48px 56px;box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden;}
+.testi-wrap::before{content:'"';position:absolute;top:-30px;left:20px;font-family:'Fraunces',serif;font-size:220px;color:var(--sun);opacity:0.3;line-height:1;font-weight:900;}
+.testi-label{font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px;opacity:0.8;position:relative;z-index:2;}
+.testi-quote{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:28px;line-height:1.35;letter-spacing:-0.01em;margin-bottom:24px;position:relative;z-index:2;}
+.testi-attr{display:flex;align-items:center;gap:14px;position:relative;z-index:2;}
+.testi-av{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--cream);background:var(--sun);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--ink);font-size:15px;}
+.testi-who{font-weight:700;font-size:14px;}
+.testi-role{font-size:12px;opacity:0.8;}
+
+.pricing-section{padding:40px 44px 140px;}
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;}
+.tier{background:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:36px 32px 32px;box-shadow:6px 6px 0 var(--ink);position:relative;transition:transform 0.3s ease,box-shadow 0.3s ease;display:flex;flex-direction:column;}
+.tier:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+.tier.featured{background:var(--sun);transform:scale(1.03);}
+.tier.featured:hover{transform:scale(1.03) translate(-3px,-3px);}
+.tier-ribbon{position:absolute;top:-16px;right:24px;background:var(--ink);color:var(--cream);border:2.5px solid var(--ink);border-radius:100px;padding:6px 16px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;box-shadow:3px 3px 0 var(--coral);}
+.tier-name{font-family:'Fraunces',serif;font-weight:800;font-size:26px;letter-spacing:-0.01em;margin-bottom:6px;}
+.tier-audience{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-ghost);margin-bottom:20px;}
+.tier.featured .tier-audience{color:var(--ink-soft);}
+.tier-price{display:flex;align-items:baseline;gap:6px;margin-bottom:14px;padding-bottom:20px;border-bottom:1.5px dashed rgba(31,26,20,0.25);}
+.tier-price-amt{font-family:'Fraunces',serif;font-weight:900;font-size:52px;line-height:1;letter-spacing:-0.03em;}
+.tier-price-per{font-size:13px;font-weight:600;color:var(--ink-ghost);}
+.tier-desc{font-size:13.5px;line-height:1.55;color:var(--ink-soft);margin-bottom:22px;}
+.tier-feats{list-style:none;margin-bottom:28px;flex:1;}
+.tier-feats li{font-size:13px;line-height:1.5;padding:8px 0 8px 24px;position:relative;color:var(--ink-soft);}
+.tier-feats li::before{content:'';position:absolute;left:0;top:13px;width:14px;height:14px;border-radius:50%;background:var(--sage);border:1.5px solid var(--ink);}
+.tier-feats li::after{content:'✓';position:absolute;left:3px;top:6px;font-size:10px;font-weight:800;color:var(--cream);}
+.tier.featured .tier-feats li::before{background:var(--coral);}
+.tier-feats li.locked::before{background:transparent;}
+.tier-feats li.locked::after{content:'○';color:var(--ink-ghost);top:7px;left:1px;font-size:13px;}
+.tier-feats li.locked{color:var(--ink-ghost);}
+.tier-cta{width:100%;}
+
+.final-cta{padding:40px 44px 120px;}
+.final-wrap{max-width:1100px;margin:0 auto;background:var(--coral);color:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:80px 60px;text-align:center;box-shadow:10px 10px 0 var(--ink);position:relative;overflow:hidden;}
+.final-wrap::before{content:'';position:absolute;top:-80px;left:-80px;width:260px;height:260px;background:var(--sun);border-radius:50%;border:2.5px solid var(--ink);}
+.final-wrap::after{content:'';position:absolute;bottom:-100px;right:-80px;width:280px;height:280px;background:var(--hot-pink);border-radius:50%;border:2.5px solid var(--ink);}
+.final-head{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:64px;line-height:0.98;letter-spacing:-0.02em;margin-bottom:24px;position:relative;z-index:2;}
+.final-head strong{font-style:normal;font-weight:900;}
+.final-body{font-size:17px;line-height:1.6;margin-bottom:36px;opacity:0.95;position:relative;z-index:2;max-width:580px;margin-left:auto;margin-right:auto;}
+.final-cta-btn{position:relative;z-index:2;}
+
+.footer{padding:40px 44px;text-align:center;font-size:12px;color:var(--ink-ghost);border-top:2px solid var(--ink);background:var(--cream-deep);position:relative;z-index:5;}
+.footer a{color:var(--ink);}
+
+/* Form */
+#screen-form{min-height:100vh;padding-top:56px;position:relative;}
+.form-bg{position:fixed;top:56px;left:0;right:0;bottom:0;transition:background 0.8s ease;z-index:1;}
+.form-bg.step-0{background:var(--sun);}
+.form-bg.step-1{background:var(--coral);}
+.form-bg.step-2{background:var(--sky);}
+.form-bg.step-3{background:var(--sage);}
+.form-bg.step-4{background:var(--hot-pink);}
+.form-bg.step-5{background:var(--grape);}
+
+.form-progress{position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;padding:10px 18px;background:rgba(247,237,213,0.95);border:2px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);}
+.fp-dot{width:28px;height:10px;border-radius:100px;background:rgba(31,26,20,0.2);border:1.5px solid var(--ink);transition:all 0.3s;cursor:pointer;}
+.fp-dot.done{background:var(--ink);}
+.fp-dot.current{background:var(--cream);width:60px;}
+
+.form-stage{position:relative;z-index:5;min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center;padding:80px 40px 60px;}
+.form-card{background:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:56px 60px;max-width:760px;width:100%;box-shadow:10px 10px 0 var(--ink);position:relative;}
+.form-step-label{display:inline-block;background:var(--ink);color:var(--cream);border-radius:100px;padding:6px 14px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:22px;}
+.form-question{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:44px;line-height:1.08;letter-spacing:-0.02em;margin-bottom:14px;color:var(--ink);}
+.form-question strong{font-style:normal;font-weight:800;}
+.form-hint{font-size:15px;color:var(--ink-soft);margin-bottom:32px;line-height:1.6;}
+.form-fields{display:grid;gap:18px;}
+.form-fields.two{grid-template-columns:1fr 1fr;}
+.ff-group{display:flex;flex-direction:column;gap:8px;}
+.ff-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-ghost);}
+.ff-input,.ff-select,.ff-textarea{background:var(--cream-deep);border:2px solid var(--ink);border-radius:14px;padding:14px 18px;font-family:'Figtree',sans-serif;font-size:15px;color:var(--ink);outline:none;transition:all 0.2s;}
+.ff-input:focus,.ff-select:focus,.ff-textarea:focus{background:var(--cream);box-shadow:3px 3px 0 var(--ink);transform:translate(-1px,-1px);}
+.ff-input::placeholder,.ff-textarea::placeholder{color:var(--ink-ghost);}
+.ff-textarea{resize:vertical;min-height:100px;line-height:1.6;font-family:'Figtree',sans-serif;}
+.ff-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231F1A14' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;cursor:pointer;}
+.form-nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:36px;gap:16px;flex-wrap:wrap;}
+.form-keys{font-size:11px;color:var(--ink-ghost);font-weight:600;display:flex;align-items:center;gap:10px;}
+.kbd{display:inline-block;background:var(--cream);border:1.5px solid var(--ink);border-radius:6px;padding:2px 8px;font-family:'Figtree',monospace;font-weight:700;font-size:10px;box-shadow:1px 1px 0 var(--ink);}
+
+.comp-block-v2{background:var(--cream-deep);border:2.5px solid var(--ink);border-radius:20px;padding:22px 24px;margin-bottom:14px;}
+.comp-block-v2-label{font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.comp-block-v2-label::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--coral);border:1.5px solid var(--ink);}
+.comp-block-v2:nth-of-type(2) .comp-block-v2-label::before{background:var(--sky);}
+.comp-block-v2:nth-of-type(3) .comp-block-v2-label::before{background:var(--sage);}
+.comp-block-v2 .form-fields{gap:12px;}
+
+/* Loading */
+#screen-loading{min-height:100vh;padding-top:56px;display:none;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:5;}
+#screen-loading.active{display:flex;}
+.load-card{background:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:56px 64px;max-width:540px;width:100%;box-shadow:10px 10px 0 var(--ink);text-align:center;position:relative;}
+.load-emoji{display:inline-flex;gap:10px;margin-bottom:20px;}
+.load-shape{width:36px;height:36px;border:2.5px solid var(--ink);}
+.load-shape:nth-child(1){background:var(--sun);border-radius:50%;animation:loadBounce 1.4s ease-in-out infinite;animation-delay:0s;}
+.load-shape:nth-child(2){background:var(--coral);border-radius:6px;animation:loadBounceRot 1.4s ease-in-out infinite;animation-delay:0.15s;}
+.load-shape:nth-child(3){background:var(--sky);border-radius:50% 50% 50% 0;animation:loadBounce 1.4s ease-in-out infinite;animation-delay:0.3s;}
+.load-shape:nth-child(4){background:var(--hot-pink);border-radius:50%;animation:loadBounce 1.4s ease-in-out infinite;animation-delay:0.45s;}
+@keyframes loadBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+@keyframes loadBounceRot{0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(-14px) rotate(135deg);}}
+.load-title{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:36px;line-height:1.1;letter-spacing:-0.02em;margin-bottom:8px;}
+.load-title strong{font-style:normal;font-weight:800;}
+.load-sub{font-size:14px;color:var(--ink-soft);margin-bottom:28px;}
+.load-steps{text-align:left;}
+.load-step{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:13px;color:var(--ink-ghost);opacity:0.4;transition:all 0.3s;}
+.load-step.active{opacity:1;color:var(--ink);font-weight:600;}
+.load-step.done{opacity:1;color:var(--sage-deep);}
+.load-step-ic{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ink);background:var(--cream-deep);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.load-step.active .load-step-ic{background:var(--sun);animation:pulse 1.5s infinite;}
+.load-step.done .load-step-ic{background:var(--sage);color:var(--cream);}
+.load-step.done .load-step-ic::after{content:'✓';}
+
+/* Results */
+#screen-results{padding-top:56px;}
+.results-body{max-width:1280px;margin:0 auto;padding:44px 44px 120px;position:relative;z-index:5;}
+.hero-r{display:grid;grid-template-columns:1fr 380px;gap:28px;margin-bottom:40px;align-items:stretch;}
+.hero-main-r{background:var(--coral);border:var(--frame-border);border-radius:var(--frame-radius);padding:48px 52px;color:var(--cream);position:relative;overflow:hidden;box-shadow:8px 8px 0 var(--ink);}
+.hero-tag-r{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:12px;opacity:0.9;display:flex;align-items:center;gap:10px;}
+.hero-tag-r::before{content:'';width:20px;height:2px;background:var(--cream);}
+.hero-product-r{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:54px;line-height:0.95;letter-spacing:-0.02em;margin-bottom:20px;}
+.hero-product-r strong{font-style:normal;font-weight:800;}
+.hero-meta-r{font-size:14px;line-height:1.7;opacity:0.92;max-width:480px;margin-bottom:28px;}
+.hero-actions-r{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-side-r{background:var(--sun);border:var(--frame-border);border-radius:var(--frame-radius);padding:36px 32px;box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;}
+.hero-side-r::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:var(--hot-pink);border-radius:50%;border:2.5px solid var(--ink);}
+.verdict-top-r{position:relative;z-index:2;}
+.verdict-label-r{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;}
+.verdict-signal-r{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);border-radius:100px;padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;}
+.verdict-signal-r .dot{width:8px;height:8px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 2px var(--cream);}
+.verdict-signal-r.green .dot{background:var(--sage);}
+.verdict-signal-r.red .dot{background:var(--coral);}
+.verdict-headline-r{font-family:'Fraunces',serif;font-weight:600;font-size:26px;line-height:1.1;letter-spacing:-0.02em;position:relative;z-index:2;}
+
+.sec-marker{display:flex;align-items:baseline;gap:18px;margin:56px 0 24px;}
+.sec-num-r{font-family:'Rubik Mono One',sans-serif;font-size:46px;color:var(--ink);opacity:0.18;letter-spacing:-0.04em;}
+.sec-title-r{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:38px;letter-spacing:-0.02em;}
+.sec-title-r strong{font-style:normal;font-weight:800;}
+.sec-arrow{margin-left:auto;font-size:26px;}
+
+.comp-intro-r{background:var(--cream-deep);border:var(--frame-border);border-radius:var(--frame-radius);padding:36px 44px;margin-bottom:28px;box-shadow:6px 6px 0 var(--ink);font-size:16px;line-height:1.8;color:var(--ink-soft);}
+.comp-intro-r p{margin-bottom:14px;}
+.comp-intro-r p:last-child{margin-bottom:0;}
+
+.diff-card-r{background:var(--hot-pink);border:var(--frame-border);border-radius:var(--frame-radius);padding:44px 52px;margin-bottom:28px;color:var(--cream);box-shadow:8px 8px 0 var(--ink);display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;position:relative;overflow:hidden;}
+.diff-card-r::after{content:'';position:absolute;bottom:-80px;left:-80px;width:220px;height:220px;background:var(--grape);border-radius:50%;border:2.5px solid var(--ink);opacity:0.9;}
+.diff-score-r{position:relative;z-index:2;text-align:center;}
+.diff-score-num-r{font-family:'Fraunces',serif;font-weight:800;font-size:140px;line-height:0.8;letter-spacing:-0.05em;display:block;}
+.diff-score-label-r{font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;opacity:0.85;margin-top:6px;}
+.diff-info-r{position:relative;z-index:2;}
+.diff-title-r{font-family:'Fraunces',serif;font-style:italic;font-size:30px;font-weight:400;line-height:1.15;margin-bottom:12px;}
+.diff-bar-r{position:relative;height:12px;background:rgba(247,237,213,0.2);border:2px solid var(--ink);border-radius:100px;margin-bottom:14px;overflow:hidden;}
+.diff-bar-fill-r{height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width 1.4s cubic-bezier(0.4,0,0.2,1);}
+.diff-rationale-r{font-size:14px;line-height:1.7;opacity:0.95;}
+
+.comps-grid-r{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:28px;}
+.comp-card-r{border:var(--frame-border);border-radius:var(--frame-radius);padding:30px 28px 26px;box-shadow:6px 6px 0 var(--ink);transition:transform 0.25s,box-shadow 0.25s;}
+.comp-card-r:hover{transform:translate(-4px,-4px);box-shadow:10px 10px 0 var(--ink);}
+.comp-card-r:nth-child(3n+1){background:var(--sky);}
+.comp-card-r:nth-child(3n+2){background:var(--sage);}
+.comp-card-r:nth-child(3n){background:var(--cream-deep);}
+.comp-top-r{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;}
+.comp-name-r{font-family:'Fraunces',serif;font-weight:800;font-size:26px;letter-spacing:-0.02em;line-height:1.05;}
+.threat-stamp-r{background:var(--ink);color:var(--cream);border-radius:100px;padding:5px 11px;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap;}
+.threat-stamp-r.high{background:var(--coral-deep);}
+.threat-stamp-r.low{background:var(--sage-deep);}
+.comp-pos-r{font-size:13px;line-height:1.6;color:var(--ink-soft);margin-bottom:18px;font-weight:500;}
+.comp-sw-r{display:grid;gap:12px;margin-bottom:18px;}
+.sw-label-r{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.sw-label-r.up::before{content:'↑';font-size:13px;}
+.sw-label-r.dn::before{content:'↓';font-size:13px;}
+.sw-list-r{list-style:none;}
+.sw-list-r li{font-size:12.5px;line-height:1.5;padding:3px 0 3px 14px;position:relative;color:var(--ink-soft);}
+.sw-list-r li::before{content:'';position:absolute;left:0;top:11px;width:8px;height:1.5px;background:var(--ink);}
+.comp-gap-r{background:var(--cream);border:2px solid var(--ink);border-radius:18px;padding:14px 16px;}
+.comp-card-r:nth-child(3n) .comp-gap-r{background:var(--sun);}
+.gap-label-r{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;}
+.gap-text-r{font-size:12.5px;line-height:1.55;font-weight:500;}
+
+.dual-grid-r{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:28px;}
+.dual-card-r{border:var(--frame-border);border-radius:var(--frame-radius);padding:36px 40px;box-shadow:6px 6px 0 var(--ink);position:relative;overflow:hidden;}
+.dual-card-r.white{background:var(--sky);}
+.dual-card-r.moat{background:var(--grape);color:var(--cream);}
+.dual-card-r::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;border:2.5px solid var(--ink);}
+.dual-card-r.white::before{background:var(--cream);}
+.dual-card-r.moat::before{background:var(--sun);}
+.dual-label-r{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;position:relative;z-index:2;}
+.dual-card-r.moat .dual-label-r{opacity:0.9;}
+.dual-headline-r{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:24px;line-height:1.2;margin-bottom:14px;position:relative;z-index:2;letter-spacing:-0.01em;}
+.dual-body-r{font-size:14px;line-height:1.75;position:relative;z-index:2;}
+.dual-card-r.moat .dual-body-r{opacity:0.92;}
+
+.va-grid-r{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.va-panel-r{background:var(--cream-deep);border:var(--frame-border);border-radius:var(--frame-radius);padding:32px 36px;box-shadow:6px 6px 0 var(--ink);}
+.va-head-r{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.va-icon-r{width:36px;height:36px;border-radius:50%;border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;}
+.va-panel-r.risk .va-icon-r{background:var(--coral);color:var(--cream);}
+.va-panel-r.gain .va-icon-r{background:var(--sage);color:var(--cream);}
+.va-head-text-r{font-family:'Fraunces',serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;}
+.va-list-r{list-style:none;}
+.va-list-r li{font-size:14px;line-height:1.6;padding:11px 0 11px 22px;position:relative;color:var(--ink-soft);border-bottom:1px dashed rgba(31,26,20,0.2);}
+.va-list-r li:last-child{border-bottom:none;}
+.va-list-r li::before{position:absolute;left:0;top:11px;font-weight:800;font-size:15px;}
+.va-panel-r.risk li::before{content:'↓';color:var(--coral-deep);}
+.va-panel-r.gain li::before{content:'↑';color:var(--sage-deep);}
+
+.pillars-grid-r{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.pillar-r{border:var(--frame-border);border-radius:var(--frame-radius);padding:30px 30px 26px;box-shadow:6px 6px 0 var(--ink);transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;}
+.pillar-r:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+.pillar-r:nth-child(5n+1){background:var(--sun);}
+.pillar-r:nth-child(5n+2){background:var(--hot-pink);color:var(--cream);}
+.pillar-r:nth-child(5n+3){background:var(--sky);}
+.pillar-r:nth-child(5n+4){background:var(--sage);color:var(--cream);}
+.pillar-r:nth-child(5n+5){background:var(--coral);color:var(--cream);}
+.pillar-head-r{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;}
+.pillar-cat-r{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+.pillar-r:nth-child(5n+2) .pillar-cat-r,.pillar-r:nth-child(5n+4) .pillar-cat-r,.pillar-r:nth-child(5n+5) .pillar-cat-r{opacity:0.9;}
+.pillar-badge-r{background:var(--ink);color:var(--cream);border-radius:100px;padding:5px 10px;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap;}
+.pillar-badge-r.critical{background:var(--coral-deep);}
+.pillar-badge-r.strong{background:var(--sage-deep);}
+.pillar-r:nth-child(5n+2) .pillar-badge-r.watch,.pillar-r:nth-child(5n+4) .pillar-badge-r.watch,.pillar-r:nth-child(5n+5) .pillar-badge-r.watch{background:var(--cream);color:var(--ink);}
+.pillar-headline-r{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:22px;line-height:1.15;margin-bottom:14px;letter-spacing:-0.01em;}
+.pillar-headline-r strong{font-style:normal;font-weight:800;}
+.pillar-insight-r{font-size:13.5px;line-height:1.65;margin-bottom:16px;}
+.pillar-r:nth-child(5n+1) .pillar-insight-r,.pillar-r:nth-child(5n+3) .pillar-insight-r{color:var(--ink-soft);}
+.pillar-r:nth-child(5n+2) .pillar-insight-r,.pillar-r:nth-child(5n+4) .pillar-insight-r,.pillar-r:nth-child(5n+5) .pillar-insight-r{opacity:0.94;}
+.pillar-actions-r{list-style:none;border-top:1.5px solid rgba(31,26,20,0.2);padding-top:12px;}
+.pillar-r:nth-child(5n+2) .pillar-actions-r,.pillar-r:nth-child(5n+4) .pillar-actions-r,.pillar-r:nth-child(5n+5) .pillar-actions-r{border-top-color:rgba(247,237,213,0.3);}
+.pillar-actions-r li{font-size:12.5px;line-height:1.5;padding:7px 0 7px 18px;position:relative;font-weight:500;}
+.pillar-actions-r li::before{content:'→';position:absolute;left:0;top:7px;font-size:14px;font-weight:800;}
+
+.scenario-float{position:fixed;bottom:30px;right:30px;z-index:100;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);border:2.5px solid var(--ink);border-radius:100px;padding:16px 26px;font-family:'Figtree',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;box-shadow:5px 5px 0 var(--sun);transition:transform 0.2s,box-shadow 0.2s;}
+.scenario-float:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--sun);}
+.scenario-float::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--sun);animation:pulse 2s infinite;}
+
+/* Chat */
+#screen-chat{padding-top:56px;min-height:100vh;display:none;flex-direction:column;}
+#screen-chat.active{display:flex;}
+.chat-wrap{flex:1;display:flex;flex-direction:column;max-width:820px;margin:0 auto;width:100%;padding:28px 28px 0;position:relative;z-index:5;}
+.chat-head{background:var(--grape);color:var(--cream);border:var(--frame-border);border-radius:var(--frame-radius);padding:22px 32px;margin-bottom:18px;box-shadow:5px 5px 0 var(--ink);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.chat-head-left{display:flex;align-items:center;gap:14px;}
+.chat-icon{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--cream);background:var(--sun);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:var(--ink);}
+.chat-title{font-family:'Fraunces',serif;font-weight:800;font-size:20px;letter-spacing:-0.01em;}
+.chat-sub{font-size:12px;opacity:0.85;font-weight:500;}
+.chat-ctx{background:rgba(247,237,213,0.2);border:1.5px solid rgba(247,237,213,0.3);border-radius:100px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.chat-body{flex:1;padding:8px 0 28px;display:flex;flex-direction:column;gap:16px;}
+.chat-msg{display:flex;flex-direction:column;gap:6px;animation:rise 0.5s ease;}
+.chat-msg.user{align-items:flex-end;}
+.chat-msg.assistant{align-items:flex-start;}
+.msg-role{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-ghost);font-weight:700;padding:0 6px;}
+.msg-bubble{max-width:88%;padding:18px 22px;border-radius:22px;font-size:14.5px;line-height:1.7;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);}
+.chat-msg.user .msg-bubble{background:var(--sun);color:var(--ink);border-bottom-right-radius:6px;}
+.chat-msg.assistant .msg-bubble{background:var(--cream);color:var(--ink);border-bottom-left-radius:6px;}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.chat-sugg{background:var(--cream-deep);border:2px solid var(--ink);border-radius:100px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;box-shadow:2px 2px 0 var(--ink);font-family:'Figtree',sans-serif;}
+.chat-sugg:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);background:var(--sun);}
+.chat-footer{position:sticky;bottom:0;background:var(--cream);border-top:2.5px solid var(--ink);padding:18px 28px;margin:0 -28px;z-index:10;}
+.chat-input-row{display:flex;gap:10px;max-width:820px;margin:0 auto;}
+.chat-input{flex:1;background:var(--cream-deep);border:2.5px solid var(--ink);border-radius:100px;padding:14px 22px;font-family:'Figtree',sans-serif;font-size:14px;outline:none;box-shadow:3px 3px 0 var(--ink);transition:all 0.15s;}
+.chat-input:focus{background:var(--cream);transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);}
+.chat-send{background:var(--coral);color:var(--cream);border:2.5px solid var(--ink);border-radius:100px;padding:14px 26px;font-family:'Figtree',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:all 0.15s;}
+.chat-send:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);}
+.chat-send:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.typing-ind{display:inline-flex;gap:4px;align-items:center;padding:14px 18px;}
+.t-dot{width:6px;height:6px;border-radius:50%;background:var(--ink-soft);animation:tbounce 1.1s infinite;}
+.t-dot:nth-child(2){animation-delay:0.2s;}
+.t-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes tbounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+
+/* Error toast */
+.error-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--coral);color:var(--cream);border:2.5px solid var(--ink);border-radius:16px;padding:14px 22px;font-size:14px;font-weight:600;box-shadow:5px 5px 0 var(--ink);z-index:1000;max-width:500px;animation:slideDown 0.4s ease;}
+@keyframes slideDown{from{transform:translate(-50%,-20px);opacity:0;}to{transform:translate(-50%,0);opacity:1;}}
+
+.rise{opacity:0;transform:translateY(20px);animation:rise 0.7s cubic-bezier(0.4,0,0.2,1) forwards;}
+.d0{animation-delay:0.05s;}.d1{animation-delay:0.15s;}.d2{animation-delay:0.25s;}.d3{animation-delay:0.35s;}.d4{animation-delay:0.45s;}.d5{animation-delay:0.55s;}.d6{animation-delay:0.65s;}.d7{animation-delay:0.75s;}
+@keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+@media (max-width:1100px){
+  .hero-grid{grid-template-columns:1fr;gap:60px;}
+  .hero-title{font-size:58px;}
+  .hero-visual{height:360px;}
+  .how-grid{grid-template-columns:1fr 1fr;}
+  .feats-grid{grid-template-columns:1fr 1fr;}
+  .feat-1{grid-column:1/-1;grid-row:1;min-height:auto;}
+  .feat-2,.feat-3,.feat-4,.feat-5{grid-column:auto;grid-row:auto;}
+  .tiers-grid{grid-template-columns:1fr;}
+  .tier.featured{transform:none;}
+  .comps-grid-r,.pillars-grid-r{grid-template-columns:1fr 1fr;}
+  .hero-r{grid-template-columns:1fr;}
+}
+@media (max-width:700px){
+  .section{padding:70px 22px;}
+  .hero-section{padding-top:110px;}
+  .hero-title{font-size:44px;}
+  .sec-head{font-size:36px;}
+  .final-head{font-size:40px;}
+  .topnav{padding:0 16px;}
+  .tn-link{display:none;}
+  .how-grid,.feats-grid{grid-template-columns:1fr;}
+  .feat-1{min-height:auto;}
+  .results-body{padding:28px 20px 100px;}
+  .comps-grid-r,.pillars-grid-r,.dual-grid-r,.va-grid-r{grid-template-columns:1fr;}
+  .hero-main-r,.hero-side-r{padding:32px 28px;}
+  .hero-product-r{font-size:38px;}
+  .diff-card-r{grid-template-columns:1fr;gap:20px;padding:32px;}
+  .diff-score-num-r{font-size:100px;}
+  .form-card{padding:36px 28px;}
+  .form-question{font-size:30px;}
+  .form-fields.two{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <button class="topnav-brand" onclick="goTo('landing')">BRAND<span>SCOPE</span></button>
+  <div class="topnav-links">
+    <button class="tn-link active" data-nav="hero" onclick="goTo('landing','hero')">Home</button>
+    <button class="tn-link" data-nav="how" onclick="goTo('landing','how')">How It Works</button>
+    <button class="tn-link" data-nav="features" onclick="goTo('landing','features')">Features</button>
+    <button class="tn-link" data-nav="pricing" onclick="goTo('landing','pricing')">Pricing</button>
+    <button class="tn-cta" onclick="startAudit()">Run Audit →</button>
+  </div>
+</nav>
+
+<div class="ambient">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<!-- LANDING -->
+<main id="screen-landing" class="screen active">
+  <section class="section hero-section" id="sec-hero">
+    <svg class="float-deco fd-sun-sm" width="54" height="54" viewBox="0 0 54 54" fill="none">
+      <circle cx="27" cy="27" r="12" fill="#F5B730" stroke="#1F1A14" stroke-width="2.5"/>
+      <g stroke="#1F1A14" stroke-width="2.5" stroke-linecap="round">
+        <line x1="27" y1="4" x2="27" y2="12"/><line x1="27" y1="42" x2="27" y2="50"/>
+        <line x1="4" y1="27" x2="12" y2="27"/><line x1="42" y1="27" x2="50" y2="27"/>
+        <line x1="11" y1="11" x2="17" y2="17"/><line x1="37" y1="37" x2="43" y2="43"/>
+        <line x1="43" y1="11" x2="37" y2="17"/><line x1="17" y1="37" x2="11" y2="43"/>
+      </g>
+    </svg>
+    <svg class="float-deco fd-squiggle" width="60" height="32" viewBox="0 0 60 32" fill="none">
+      <path d="M3 16 Q12 2, 21 16 T39 16 T57 16" stroke="#E4569D" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Brand intelligence · In your pocket</div>
+        <h1 class="hero-title rise d0">Think like a <strong>brand strategist.</strong> <span class="u">Without</span> becoming one.</h1>
+        <p class="hero-body rise d1">Brandscope runs a complete competitive brand audit on any CPG concept in under 60 seconds. Built for ambitious students, junior brand folks, and founders who want the real answer — fast, sharp, and actually useful.</p>
+        <div class="hero-cta rise d2">
+          <button class="btn btn-coral btn-lg" onclick="startAudit()">Run Your First Audit →</button>
+        </div>
+        <div class="hero-trust rise d3">
+          <div class="trust-avs">
+            <div class="trust-av">MB</div><div class="trust-av">SA</div>
+            <div class="trust-av">RK</div><div class="trust-av">+</div>
+          </div>
+          <div class="trust-text">Trusted by <b>2,400+ students</b> across UBC, NYU, Ivey,<br>Wharton, and INSEAD.</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hv-card hv-1">
+          <div class="hvc-label">Verdict</div>
+          <div class="hvc-head"><strong>Proceed.</strong> With sharpening.</div>
+        </div>
+        <div class="hv-card hv-2">
+          <div class="hvc-label">Differentiation</div>
+          <div class="hvc-num">72</div>
+          <div class="hvc-bar"><div class="hvc-bar-fill" style="width:72%"></div></div>
+        </div>
+        <div class="hv-card hv-3">
+          <div class="hvc-label">Competitor · Olipop</div>
+          <div class="hvc-head">High threat. <em>Attack the clarity lane.</em></div>
+        </div>
+        <div class="hv-card hv-4">
+          <div class="hvc-label">White Space</div>
+          <div class="hvc-head"><strong>Clarity energy</strong> — the unowned lane.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section" id="sec-how">
+    <div class="how-wrap">
+      <div class="sec-eyebrow">◆ The Method</div>
+      <h2 class="sec-head">Built around <span class="u">real</span> brand strategy frameworks. Not <strong>AI fluff.</strong></h2>
+      <div class="how-grid">
+        <div class="how-card"><div class="how-num">01</div><div class="how-title">Tell Us The Product</div><p class="how-body">Six thoughtful sections covering product basics, positioning, competitors, market, stage, and finance. Takes about five minutes.</p></div>
+        <div class="how-card"><div class="how-num">02</div><div class="how-title">Name Your Rivals</div><p class="how-body">Drop in three real competitors. The audit is heavily weighted toward competitive landscape — this is where it earns its keep.</p></div>
+        <div class="how-card"><div class="how-num">03</div><div class="how-title">Get The Audit</div><p class="how-body">Strategic verdict, white space, differentiation score, competitor-by-competitor gap analysis, and five strategic pillars.</p></div>
+        <div class="how-card"><div class="how-num">04</div><div class="how-title">Stress-Test Ideas</div><p class="how-body">Scenario mode lets you ask follow-ups against your full audit context. What if I change price? Pivot channels? Rebrand?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section feats-section" id="sec-features">
+    <div class="sec-eyebrow">◇ What You Get</div>
+    <h2 class="sec-head">Five ways Brandscope <strong>sharpens</strong> your <em>thinking.</em></h2>
+    <div class="feats-grid">
+      <div class="feat feat-1"><div><div class="feat-label">Signature Output</div><h3 class="feat-head">Competitor-by-competitor <strong>gap analysis</strong> — the kind strategy consultants actually write.</h3><p class="feat-body">For every named competitor, Brandscope surfaces their specific strengths, weaknesses, threat level, and the concrete opportunity gap your brand can exploit against them. No generic advice. Actual, named, actionable intelligence.</p></div></div>
+      <div class="feat feat-2"><div class="feat-label">Differentiation Score</div><h3 class="feat-head">A <strong>0-100</strong> read on where you sit.</h3><p class="feat-body">With honest rationale on what earns points and what costs them.</p></div>
+      <div class="feat feat-3"><div class="feat-label">White Space Map</div><h3 class="feat-head">The <strong>unowned</strong> lane you can claim.</h3><p class="feat-body">Specific positioning territory, not vague suggestions.</p></div>
+      <div class="feat feat-4"><div class="feat-label">5 Strategic Pillars</div><h3 class="feat-head">Distribution. Marketing. <strong>Legal. Financial.</strong> Innovation.</h3><p class="feat-body">Each with priority flag and three specific actions.</p></div>
+      <div class="feat feat-5"><div class="feat-label">Scenario Mode</div><h3 class="feat-head">Stress-test every <strong>"what if."</strong></h3><p class="feat-body">Chat with your audit data loaded as context.</p></div>
+    </div>
+  </section>
+
+  <section class="testi-section">
+    <div class="testi-wrap">
+      <div class="testi-label">◆ What People Are Saying</div>
+      <p class="testi-quote">I used Brandscope to audit my concept for a CPG case comp. The competitive analysis was sharper than anything I got from three rounds of feedback with my study group. Won third place.</p>
+      <div class="testi-attr">
+        <div class="testi-av">MR</div>
+        <div><div class="testi-who">Maya R.</div><div class="testi-role">BCom '27 · Ivey Business School</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pricing-section" id="sec-pricing">
+    <div class="sec-eyebrow">◇ Pricing</div>
+    <h2 class="sec-head">Three tiers. <strong>Pick your lane.</strong></h2>
+    <div class="tiers-grid">
+      <div class="tier">
+        <h3 class="tier-name">Free</h3>
+        <div class="tier-audience">For students · Dipping in</div>
+        <div class="tier-price"><span class="tier-price-amt">$0</span><span class="tier-price-per">/ forever</span></div>
+        <p class="tier-desc">Enough to audit your first side project, case comp, or class concept. No credit card required.</p>
+        <ul class="tier-feats"><li>2 audits per day</li><li>Full 6-section input form</li><li>Complete competitive landscape</li><li>All 5 strategic pillars</li><li>Scenario chat mode</li><li class="locked">Save & compare audits</li><li class="locked">PDF export</li><li class="locked">Retailer readiness score</li></ul>
+        <button class="btn btn-cream tier-cta" onclick="startAudit()">Start Free</button>
+      </div>
+      <div class="tier featured">
+        <div class="tier-ribbon">★ Most Popular</div>
+        <h3 class="tier-name">Pro</h3>
+        <div class="tier-audience">For students · Going deeper</div>
+        <div class="tier-price"><span class="tier-price-amt">$19</span><span class="tier-price-per">/ month</span></div>
+        <p class="tier-desc">For case comp season, MBA apps, and the side hustle you're actually serious about.</p>
+        <ul class="tier-feats"><li>Unlimited audits</li><li>Unlimited scenario chat</li><li>Save & compare up to 5 audits</li><li>PDF export — deck-ready</li><li>Competitor tracking over time</li><li>Brand score history</li><li class="locked">Retailer readiness score</li><li class="locked">Investor one-pager</li></ul>
+        <button class="btn btn-ink tier-cta" onclick="startAudit()">Go Pro →</button>
+      </div>
+      <div class="tier">
+        <h3 class="tier-name">Founder</h3>
+        <div class="tier-audience">For founders · Pros · Consultants</div>
+        <div class="tier-price"><span class="tier-price-amt">$49</span><span class="tier-price-per">/ month</span></div>
+        <p class="tier-desc">Everything, unlocked. For actual product rollout — not just thinking about it.</p>
+        <ul class="tier-feats"><li>Everything in Pro</li><li>Investor-ready one-pager export</li><li>Category benchmarking</li><li>Retailer readiness score</li><li>Multiple brand workspaces</li><li>Client sharing links</li><li>Bulk audit running</li><li>Custom prompt tuning</li></ul>
+        <button class="btn btn-coral tier-cta" onclick="startAudit()">Go Founder →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="final-wrap">
+      <h2 class="final-head">One audit away from <strong>actually</strong> knowing.</h2>
+      <p class="final-body">Stop guessing whether your brand concept has legs. Run your first audit in under 5 minutes. Free, no signup, no catch.</p>
+      <button class="btn btn-sun btn-lg final-cta-btn" onclick="startAudit()">Run Your First Audit →</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 Brandscope · Made for brand builders · <a href="#">Terms</a> · <a href="#">Privacy</a>
+  </footer>
+</main>
+
+<!-- FORM -->
+<main id="screen-form" class="screen">
+  <div class="form-bg step-0" id="form-bg"></div>
+  <div class="form-progress" id="form-progress"></div>
+  <div class="form-stage">
+    <div id="form-steps-container"></div>
+  </div>
+</main>
+
+<!-- LOADING -->
+<main id="screen-loading" class="screen">
+  <div class="load-card">
+    <div class="load-emoji">
+      <div class="load-shape"></div><div class="load-shape"></div>
+      <div class="load-shape"></div><div class="load-shape"></div>
+    </div>
+    <h2 class="load-title">Running your <strong>audit</strong>...</h2>
+    <p class="load-sub">Strategic recommendations, incoming.</p>
+    <div class="load-steps" id="load-steps"></div>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<main id="screen-results" class="screen">
+  <div class="results-body" id="results-body"></div>
+  <button class="scenario-float" onclick="goTo('chat')">Scenario Mode →</button>
+</main>
+
+<!-- CHAT -->
+<main id="screen-chat" class="screen">
+  <div class="chat-wrap">
+    <div class="chat-head">
+      <div class="chat-head-left">
+        <div class="chat-icon">✦</div>
+        <div>
+          <div class="chat-title">Scenario Mode</div>
+          <div class="chat-sub">Full audit context loaded</div>
+        </div>
+      </div>
+      <div class="chat-ctx" id="chat-ctx-product">Brand audit · Loaded</div>
+    </div>
+    <div class="chat-body" id="chat-body"></div>
+    <div class="chat-footer">
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything about your brand strategy..." onkeydown="chatKey(event)">
+        <button class="chat-send" id="chat-send" onclick="sendChat()">Send →</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const S = {
+  step: 0,
+  fd: {},
+  audit: null,
+  chatHistory: []
+};
+
+const FORM_STEPS = [
+  {
+    label:'Step 1 of 6 · Product',
+    question:'What are we <strong>auditing?</strong>',
+    hint:'Start with the basics. Be specific — the sharper the input, the sharper the output.',
+    fields:[
+      {id:'product_name',label:'Brand / Product Name',placeholder:'e.g. Clean Gut Energy',type:'text',full:true,required:true},
+      {id:'category',label:'Category',type:'select',options:['Beverages','Snacks & Bars','Supplements','Dairy & Alternatives','Frozen Foods','Personal Care','Pet Food','Other']},
+      {id:'subcategory',label:'Subcategory',placeholder:'e.g. Energy drink',type:'text'},
+      {id:'format',label:'Product Format',type:'select',options:['RTD (Ready-to-drink)','Powder','Bar / Solid','Capsule','Other']},
+      {id:'retail_price',label:'Retail Price (per unit)',placeholder:'e.g. $3.99 CAD',type:'text'}
+    ]
+  },
+  {
+    label:'Step 2 of 6 · Positioning',
+    question:'How is the brand <em>positioned?</em>',
+    hint:'Who is this for, what does it stand for, and what makes it different?',
+    fields:[
+      {id:'target_consumer',label:'Target Consumer',placeholder:'e.g. Health-conscious Gen Z & Millennials',type:'text',full:true},
+      {id:'brand_promise',label:'Brand Promise / Value Proposition',placeholder:'What does this brand fundamentally deliver?',type:'textarea',full:true},
+      {id:'price_tier',label:'Price Tier',type:'select',options:['Value','Mid-market','Premium','Luxury']},
+      {id:'purchase_driver',label:'Primary Purchase Driver',type:'select',options:['Health & function','Taste','Sustainability','Convenience','Price','Status']},
+      {id:'differentiation',label:'What makes it genuinely different?',placeholder:'Be honest about the real point of difference...',type:'textarea',full:true}
+    ]
+  },
+  {
+    label:'Step 3 of 6 · Competitors',
+    question:'Who are you <strong>competing</strong> against?',
+    hint:'Name 3 real competitors. This is where the audit earns its keep.',
+    competitorBlocks:true
+  },
+  {
+    label:'Step 4 of 6 · Market',
+    question:'Where will this <em>live?</em>',
+    hint:'Geography, distribution channels, and current retail footprint.',
+    fields:[
+      {id:'geography',label:'Primary Geography',type:'select',options:['Canada (National)','Canada (Regional)','USA (National)','USA (Regional)','UK','Global']},
+      {id:'dist_stage',label:'Distribution Stage',type:'select',options:['No distribution yet','DTC / Online only','Regional retail','National retail']},
+      {id:'channels',label:'Target Retail Channels',placeholder:'e.g. Grocery, Specialty, DTC...',type:'textarea',full:true},
+      {id:'footprint',label:'Current Retail Footprint',placeholder:'e.g. 42 Whole Foods stores in BC',type:'text',full:true}
+    ]
+  },
+  {
+    label:'Step 5 of 6 · Stage',
+    question:'What are the <strong>constraints?</strong>',
+    hint:'Stage, team, funding, and marketing firepower.',
+    fields:[
+      {id:'brand_stage',label:'Brand Stage',type:'select',options:['Concept','Pre-launch','Under 1 year','1-3 years','3+ years']},
+      {id:'team_size',label:'Team Size',type:'select',options:['Solo founder','2-5 people','6-20 people','20+ people']},
+      {id:'funding',label:'Funding Status',type:'select',options:['Bootstrapped','Friends & family','Angel / Pre-seed','Seed','Series A+']},
+      {id:'mktg_budget',label:'Marketing Budget (annual)',type:'select',options:['Under $25K','$25K-$100K','$100K-$500K','$500K-$2M','$2M+']},
+      {id:'mktg_channels',label:'Existing Marketing Channels',placeholder:'Social following, email list, influencer relationships...',type:'textarea',full:true}
+    ]
+  },
+  {
+    label:'Step 6 of 6 · Financial',
+    question:'Let\'s talk <em>money</em> and <strong>claims.</strong>',
+    hint:'Unit economics and compliance context. Estimates are fine.',
+    fields:[
+      {id:'cogs',label:'Estimated COGS (per unit)',placeholder:'e.g. $1.20 CAD',type:'text'},
+      {id:'gross_margin',label:'Target Gross Margin',type:'select',options:['Under 30%','30-40%','40-55%','55%+','Unknown']},
+      {id:'health_claims',label:'Health / Functional Claims',placeholder:'What does the product do?',type:'textarea',full:true},
+      {id:'certs',label:'Certifications (current or planned)',placeholder:'Organic, Non-GMO, B Corp...',type:'text',full:true}
+    ]
+  }
+];
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function goTo(screen, sectionId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if (sectionId) {
+    setTimeout(() => {
+      const el = document.getElementById('sec-' + sectionId);
+      if (el) el.scrollIntoView({behavior:'smooth'});
+    }, 100);
+  }
+}
+
+function startAudit() {
+  S.step = 0;
+  S.fd = {};
+  initForm();
+  goTo('form');
+}
+
+// Scroll-aware nav
+const sections = ['hero','how','features','pricing'];
+window.addEventListener('scroll', () => {
+  if (!document.getElementById('screen-landing').classList.contains('active')) return;
+  let current = 'hero';
+  sections.forEach(s => {
+    const el = document.getElementById('sec-' + s);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 140 && rect.bottom >= 140) current = s;
+    }
+  });
+  document.querySelectorAll('.tn-link[data-nav]').forEach(l => {
+    l.classList.toggle('active', l.dataset.nav === current);
+  });
+});
+
+// ═══════════════════════════════════════
+// FORM
+// ═══════════════════════════════════════
+function initForm() { renderProgress(); renderStep(); }
+
+function renderProgress() {
+  document.getElementById('form-progress').innerHTML = FORM_STEPS.map((_, i) => `
+    <div class="fp-dot ${i < S.step ? 'done' : ''} ${i === S.step ? 'current' : ''}" onclick="jumpToStep(${i})"></div>`).join('');
+}
+
+function jumpToStep(i) { saveStep(); S.step = i; renderProgress(); renderStep(); }
+
+function renderStep() {
+  const step = FORM_STEPS[S.step];
+  document.getElementById('form-bg').className = 'form-bg step-' + S.step;
+
+  let fieldsHtml = '';
+  if (step.competitorBlocks) {
+    fieldsHtml = [1,2,3].map(n => `
+      <div class="comp-block-v2">
+        <div class="comp-block-v2-label">Competitor 0${n}</div>
+        <div class="form-fields two">
+          <div class="ff-group"><label class="ff-label">Brand Name</label><input class="ff-input" id="c${n}_name" placeholder="e.g. Olipop" value="${gv('c'+n+'_name')}"></div>
+          <div class="ff-group"><label class="ff-label">Their Positioning</label><input class="ff-input" id="c${n}_pos" placeholder="Gut health soda, nostalgic" value="${gv('c'+n+'_pos')}"></div>
+          <div class="ff-group" style="grid-column:1/-1"><label class="ff-label">Why are they a threat?</label><textarea class="ff-textarea" id="c${n}_threat" placeholder="What do they do well?" style="min-height:70px">${gv('c'+n+'_threat')}</textarea></div>
+        </div>
+      </div>`).join('') + `
+      <div class="ff-group" style="margin-top:14px"><label class="ff-label">Overall Competitive Context</label><textarea class="ff-textarea" id="comp_context" placeholder="Describe the category dynamics — saturated? consolidating? clear leader?">${gv('comp_context')}</textarea></div>`;
+  } else {
+    let html = '';
+    step.fields.forEach(f => {
+      let input = '';
+      const val = gv(f.id);
+      if (f.type === 'textarea') {
+        input = `<textarea class="ff-textarea" id="${f.id}" placeholder="${f.placeholder || ''}">${val}</textarea>`;
+      } else if (f.type === 'select') {
+        input = `<select class="ff-select" id="${f.id}"><option value="">Select ${f.label}</option>${f.options.map(o => `<option ${val===o?'selected':''}>${o}</option>`).join('')}</select>`;
+      } else {
+        input = `<input class="ff-input" type="${f.type}" id="${f.id}" placeholder="${f.placeholder || ''}" value="${val}">`;
+      }
+      html += `<div class="ff-group" style="${f.full ? 'grid-column:1/-1;' : ''}"><label class="ff-label">${f.label}</label>${input}</div>`;
+    });
+    fieldsHtml = `<div class="form-fields two">${html}</div>`;
+  }
+
+  document.getElementById('form-steps-container').innerHTML = `
+    <div class="form-card rise d0">
+      <div class="form-step-label">${step.label}</div>
+      <h2 class="form-question">${step.question}</h2>
+      <p class="form-hint">${step.hint}</p>
+      ${fieldsHtml}
+      <div class="form-nav-row">
+        <div>${S.step > 0 ? `<button class="btn btn-ghost btn-sm" onclick="prevStep()">← Back</button>` : ''}</div>
+        <div class="form-keys">
+          <span><span class="kbd">Tab</span> to move · <span class="kbd">Enter</span> to advance</span>
+          <button class="btn btn-coral" onclick="nextStep()">${S.step === FORM_STEPS.length - 1 ? 'Run Audit ✦' : 'Continue →'}</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function gv(id) { return S.fd[id] || ''; }
+
+function saveStep() {
+  document.querySelectorAll('.form-card input, .form-card select, .form-card textarea')
+    .forEach(el => { if (el.id) S.fd[el.id] = el.value; });
+}
+
+function nextStep() {
+  saveStep();
+  if (S.step < FORM_STEPS.length - 1) {
+    S.step++;
+    renderProgress();
+    renderStep();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    runAudit();
+  }
+}
+
+function prevStep() {
+  saveStep();
+  if (S.step > 0) {
+    S.step--;
+    renderProgress();
+    renderStep();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+// ═══════════════════════════════════════
+// API CALLS
+// ═══════════════════════════════════════
+async function runAudit() {
+  saveStep();
+  if (!S.fd.product_name) {
+    showError("Please enter a brand or product name (Step 1).");
+    S.step = 0; renderProgress(); renderStep();
+    return;
+  }
+  goTo('loading');
+  animateLoading();
+
+  try {
+    const res = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(S.fd)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      goTo('form');
+      if (data.error === 'rate_limit') {
+        showError(data.message);
+      } else {
+        showError(data.message || 'Audit failed. Please try again.');
+      }
+      return;
+    }
+
+    S.audit = data.audit;
+    renderResults();
+    goTo('results');
+  } catch (err) {
+    goTo('form');
+    showError('Connection error. Please check your internet and try again.');
+  }
+}
+
+function animateLoading() {
+  const steps = [
+    'Analyzing brand positioning',
+    'Mapping competitive landscape',
+    'Identifying white space opportunities',
+    'Evaluating distribution readiness',
+    'Assessing financial viability',
+    'Compiling strategic recommendations'
+  ];
+  const ls = document.getElementById('load-steps');
+  ls.innerHTML = steps.map((s, i) => `
+    <div class="load-step" id="ls-${i}"><div class="load-step-ic"></div>${s}</div>`).join('');
+
+  let i = 0;
+  function tick() {
+    if (i > 0) {
+      const prev = document.getElementById('ls-' + (i-1));
+      if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+    }
+    if (i < steps.length) {
+      const cur = document.getElementById('ls-' + i);
+      if (cur) cur.classList.add('active');
+      i++;
+      setTimeout(tick, 1800);
+    }
+  }
+  tick();
+}
+
+// ═══════════════════════════════════════
+// RESULTS RENDER
+// ═══════════════════════════════════════
+function renderResults() {
+  const d = S.audit, f = S.fd;
+  const v = d.verdict || {}, c = d.competitive || {};
+  const comps = c.competitors || [];
+  const score = c.differentiation_score || 0;
+  const esc = (s) => (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const nl2br = (s) => esc(s || '').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+
+  const monthYear = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  document.getElementById('results-body').innerHTML = `
+    <section class="hero-r">
+      <div class="hero-main-r rise d0">
+        <div class="hero-tag-r">Strategic Audit · ${monthYear}</div>
+        <h1 class="hero-product-r">${esc(f.product_name)}</h1>
+        <p class="hero-meta-r">${esc(f.category || '')} ${f.subcategory ? '· ' + esc(f.subcategory) : ''}${f.brand_stage ? ' · ' + esc(f.brand_stage) : ''}. Analyzed against ${[f.c1_name, f.c2_name, f.c3_name].filter(Boolean).map(esc).join(', ') || 'your competitive set'}.</p>
+        <div class="hero-actions-r">
+          <button class="btn btn-cream" onclick="startAudit()">New Audit</button>
+          <button class="btn btn-ghost" onclick="goTo('landing')">Home</button>
+        </div>
+      </div>
+      <aside class="hero-side-r rise d1">
+        <div class="verdict-top-r">
+          <div class="verdict-label-r">Strategic Verdict</div>
+          <div class="verdict-signal-r ${v.signal || 'yellow'}"><span class="dot"></span> ${(v.signal || 'yellow').toUpperCase()}</div>
+        </div>
+        <h2 class="verdict-headline-r">${esc(v.headline)}</h2>
+      </aside>
+    </section>
+
+    <div class="hero-r" style="grid-template-columns:1fr;margin-bottom:0;">
+      <div class="comp-intro-r rise d2" style="margin-bottom:0;">
+        <p>${esc(v.summary)}</p>
+      </div>
+    </div>
+
+    <div class="sec-marker rise d2">
+      <span class="sec-num-r">01</span>
+      <h3 class="sec-title-r">The <strong>Competitive</strong> Landscape</h3>
+      <span class="sec-arrow">↘</span>
+    </div>
+
+    <div class="comp-intro-r rise d2"><p>${nl2br(c.overview)}</p></div>
+
+    <div class="comp-intro-r rise d3" style="background:var(--cream);">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-ghost);margin-bottom:10px;">Market Dynamics</div>
+      <p style="margin:0;">${esc(c.market_dynamics)}</p>
+    </div>
+
+    <div class="diff-card-r rise d3">
+      <div class="diff-score-r">
+        <span class="diff-score-num-r">${score}</span>
+        <div class="diff-score-label-r">/ 100</div>
+      </div>
+      <div class="diff-info-r">
+        <h4 class="diff-title-r">Differentiation Score</h4>
+        <div class="diff-bar-r"><div class="diff-bar-fill-r" style="width:${score}%"></div></div>
+        <p class="diff-rationale-r">${esc(c.differentiation_rationale)}</p>
+      </div>
+    </div>
+
+    <div class="comps-grid-r">
+      ${comps.map((comp, i) => `
+        <div class="comp-card-r rise d${4 + (i % 3)}">
+          <div class="comp-top-r">
+            <div class="comp-name-r">${esc(comp.name)}</div>
+            <div class="threat-stamp-r ${comp.threat_level || 'medium'}">${(comp.threat_level || 'medium').toUpperCase()} THREAT</div>
+          </div>
+          <p class="comp-pos-r">${esc(comp.positioning)}</p>
+          <div class="comp-sw-r">
+            <div><div class="sw-label-r up">Strengths</div><ul class="sw-list-r">${(comp.strengths||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
+            <div><div class="sw-label-r dn">Weaknesses</div><ul class="sw-list-r">${(comp.weaknesses||[]).map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>
+          </div>
+          <div class="comp-gap-r"><div class="gap-label-r">Opportunity Gap</div><div class="gap-text-r">${esc(comp.opportunity_gap)}</div></div>
+        </div>`).join('')}
+    </div>
+
+    <div class="dual-grid-r">
+      <div class="dual-card-r white rise d4">
+        <div class="dual-label-r">◇ White Space</div>
+        <p class="dual-body-r">${esc(c.white_space)}</p>
+      </div>
+      <div class="dual-card-r moat rise d5">
+        <div class="dual-label-r">◆ Competitive Moat</div>
+        <p class="dual-body-r">${esc(c.competitive_moat)}</p>
+      </div>
+    </div>
+
+    <div class="va-grid-r">
+      <div class="va-panel-r risk rise d6">
+        <div class="va-head-r"><div class="va-icon-r">!</div><div class="va-head-text-r">Vulnerabilities</div></div>
+        <ul class="va-list-r">${(c.vulnerabilities||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul>
+      </div>
+      <div class="va-panel-r gain rise d7">
+        <div class="va-head-r"><div class="va-icon-r">+</div><div class="va-head-text-r">Advantages</div></div>
+        <ul class="va-list-r">${(c.advantages||[]).map(a=>`<li>${esc(a)}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="sec-marker rise d4">
+      <span class="sec-num-r">02</span>
+      <h3 class="sec-title-r">The <strong>Strategic</strong> Pillars</h3>
+      <span class="sec-arrow">↘</span>
+    </div>
+
+    <div class="pillars-grid-r">
+      ${[
+        {key:'distribution', label:'Distribution'},
+        {key:'marketing',    label:'Marketing & Brand'},
+        {key:'financial',    label:'Financial Viability'},
+        {key:'legal',        label:'Legal & Compliance'},
+        {key:'innovation',   label:'Innovation & Portfolio'}
+      ].map((p, i) => {
+        const pl = d[p.key] || {};
+        return `
+        <div class="pillar-r rise d${5 + (i % 3)}">
+          <div class="pillar-head-r">
+            <div class="pillar-cat-r">${p.label}</div>
+            <div class="pillar-badge-r ${pl.priority || 'watch'}">${(pl.priority || 'watch').toUpperCase()}</div>
+          </div>
+          <h4 class="pillar-headline-r">${esc(pl.headline)}</h4>
+          <p class="pillar-insight-r">${esc(pl.insights)}</p>
+          <ul class="pillar-actions-r">${(pl.actions||[]).map(a=>`<li>${esc(a)}</li>`).join('')}</ul>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ═══════════════════════════════════════
+// CHAT
+// ═══════════════════════════════════════
+function chatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+
+function initChat() {
+  document.getElementById('chat-ctx-product').textContent = (S.fd.product_name || 'Brand') + ' · Loaded';
+  if (S.chatHistory.length === 0) {
+    const body = document.getElementById('chat-body');
+    body.innerHTML = `
+      <div class="chat-msg assistant">
+        <div class="msg-role">Brandscope</div>
+        <div class="msg-bubble">Scenario mode is active — your full brand audit is loaded as context. Ask me anything you want to stress-test: pricing changes, channel pivots, head-to-head competitor plays, positioning shifts. I'll answer against your brand's actual constraints.</div>
+        <div class="chat-suggestions">
+          <button class="chat-sugg" onclick="useSuggestion('What if I dropped price by $1?')">What if I dropped price by $1?</button>
+          <button class="chat-sugg" onclick="useSuggestion('What changes if I go DTC-first?')">Pivot to DTC-only?</button>
+          <button class="chat-sugg" onclick="useSuggestion('What\\'s my biggest blind spot?')">My biggest blind spot?</button>
+        </div>
+      </div>`;
+  }
+}
+
+function useSuggestion(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+  document.getElementById('chat-send').disabled = true;
+
+  appendMsg('user', msg);
+  S.chatHistory.push({ role: 'user', content: msg });
+
+  const tid = 'typing-' + Date.now();
+  const body = document.getElementById('chat-body');
+  body.insertAdjacentHTML('beforeend', `
+    <div class="chat-msg assistant" id="${tid}">
+      <div class="msg-role">Brandscope</div>
+      <div class="msg-bubble"><div class="typing-ind"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div></div>
+    </div>`);
+  body.scrollTop = body.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: S.chatHistory, audit: S.audit, formData: S.fd })
+    });
+
+    const data = await res.json();
+    document.getElementById(tid)?.remove();
+
+    if (!res.ok) {
+      appendMsg('assistant', 'Something went wrong. Please try again.');
+      document.getElementById('chat-send').disabled = false;
+      return;
+    }
+
+    S.chatHistory.push({ role: 'assistant', content: data.reply });
+    appendMsg('assistant', data.reply);
+  } catch (err) {
+    document.getElementById(tid)?.remove();
+    appendMsg('assistant', 'Connection error. Please try again.');
+  }
+
+  document.getElementById('chat-send').disabled = false;
+}
+
+function appendMsg(role, text) {
+  const body = document.getElementById('chat-body');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>');
+  div.innerHTML = `
+    <div class="msg-role">${role === 'user' ? 'You' : 'Brandscope'}</div>
+    <div class="msg-bubble">${safeText}</div>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ═══════════════════════════════════════
+// ERROR TOAST
+// ═══════════════════════════════════════
+function showError(msg) {
+  const existing = document.querySelector('.error-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'error-toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 6000);
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Watch screen changes to init chat when entering chat screen
+  const observer = new MutationObserver(() => {
+    if (document.getElementById('screen-chat').classList.contains('active') && S.audit) {
+      initChat();
+    }
+  });
+  document.querySelectorAll('.screen').forEach(s => observer.observe(s, { attributes: true }));
+});
+</script>
+</body>
+</html>
